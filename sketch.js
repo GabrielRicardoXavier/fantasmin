@@ -2,11 +2,11 @@ var fantasma,fantasmaImagem
 var fundo,fundoImagem
 var portaImagem
 var cercaImagem
-var fantasma,fantasmaImagem
+var fantasma,fantasmaImagem,fantasmaImgPulo
 var grupoPortas,grupoCerca,grupoBroquin
 var estadoDoJoguin = "vamoSimbora"
 var som
-
+var textoDoInicio,textoDoInicioImg
 
 function portas() {
   if(frameCount %100 === 0){
@@ -40,6 +40,8 @@ function preload(){
   cercaImagem = loadImage("climber.png");
   fantasmaImagem = loadImage("ghost-standing.png");
   som = loadSound("spooky.wav");
+  textoDoInicioImg = loadImage("imagemtextoDoInicio.png");
+  fantasmaImgPulo = loadImage("ghost-jumping,png");
 }
 
 function setup(){
@@ -53,6 +55,11 @@ function setup(){
   fantasma = createSprite(300,300,40,40);
   fantasma.addImage(fantasmaImagem);
   fantasma.scale = 0.3;
+
+  textoDoInicio = createSprite(300,200,50,50);
+  textoDoInicio.addImage(textoDoInicioImg);
+  textoDoInicio.scale = 0.2;
+  textoDoInicio.visible = true;
 
   grupoPortas = new Group();
   grupoCerca = new Group();
@@ -69,12 +76,15 @@ function draw(){
   } else if (estadoDoJoguin === "jogando"){
     fundo.velocityY = 3;
 
+    textoDoInicio.visible = false;
+
     if(fundo.y >400){
       fundo.y = 300;
     }
 
     if(keyDown("space")){
       fantasma.velocityY = -5;
+      fantasma.addImage(fantasmaImgPulo);
     }
 
     fantasma.velocityY = fantasma.velocityY + 0.3;
@@ -113,3 +123,6 @@ function draw(){
 
   drawSprites();
 }
+
+// alterar animação do fantasma quando estiver em cima da cerca
+// aperte R para recomeçar (teste)
